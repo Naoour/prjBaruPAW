@@ -1,0 +1,290 @@
+<div class="container-fluid px-4">
+    <h1 class="mt-4">Master Data</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Daftar kejadian</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <form class="m-4" (submit)="simpanBuku(bukuForm)" #bukuForm="ngForm">
+                    <div class="mb-3">
+                        <label for="id" class="form-label">ID</label>
+                        <input type="hidden" class="form-control" id="id" ngModel name="id" #id="ngModel">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="judul" class="form-label">Judul Kejadian</label>
+                        <input type="text" [ngClass]="judul.invalid && bukuForm.submitted ? 'is-invalid':''"
+                            class="form-control" id="judul" ngModel name="judul" #judul="ngModel" required>
+
+                        <div *ngIf="judul.invalid && bukuForm.submitted" class="invalid-feedback">
+                            Judul Buku harus diisi
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="judul" class="form-label">Kategori Kejadian</label>
+                        <select id="eventCategory" name="eventCategory" class="form-control" required>
+                            <option value="Kejahatan">Kejahatan</option>
+                            <option value="Kebakaran">Kebakaran</option>
+                            <option value="Kerusakan Infrastruktur">Kerusakan Infrastruktur</option>
+                            <option value="Acara Komunitas">Acara Komunitas</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="eventDate">Tanggal dan Waktu Kejadian</label>
+                            <input type="datetime-local" id="eventDate" name="eventDate" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="eventDescription">Deskripsi Detail Kejadian</label>
+                            <textarea id="eventDescription" name="eventDescription" class="form-control" rows="4" placeholder="Deskripsikan kejadian lebih lanjut" required></textarea>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="eventMedia">Foto/Media Kejadian (Opsional)</label> <br>
+                            <input type="file" id="eventMedia" name="eventMedia" class="form-control-file">
+                        </div>>
+                    </div>
+
+                    
+
+                        <!-- <div *ngIf="!(genre1.value || genre2.value || genre3.value)  && bukuForm.submitted"" class="
+                            invalid-feedback">
+                            Genre harus dipilih minimal satu !
+                        </div> -->
+
+                    
+
+                    <button type="submit" class="btn btn-primary">{{ mode }}</button>
+                    &nbsp;
+                    <button (click)="onReset()" type="reset" class="btn btn-danger">Reset</button>
+                </form>
+
+                <div *ngIf="messageExecute != ''" class="bg-success m-4 p-2 text-dark bg-opacity-25">
+                    <h6>{{ messageExecute }}</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Data Buku
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Penulis</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="bukuList.length>0">
+                            <tr *ngFor="let buku of bukuList | paginate: { itemsPerPage: 5, currentPage: p }">
+                                <td>{{ buku.judul }}</td>
+                                <td>{{ buku.penulis }}</td>
+                                <td><button (click)="tampilData(buku,bukuForm)"
+                                        class="btn btn-outline-primary btn-sm">EDIT</button></td>
+                                <td><button (click)="hapusBuku(buku)"
+                                        class="btn btn-outline-danger btn-sm">DELETE</button></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Daftar kejadian
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Penulis</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="bukuList.length>0">
+                            <tr *ngFor="let buku of bukuList | paginate: { itemsPerPage: 5, currentPage: p }">
+                                <td>{{ buku.judul }}</td>
+                                <td>{{ buku.penulis }}</td>
+                                <td><button (click)="tampilData(buku,bukuForm)"
+                                        class="btn btn-outline-primary btn-sm">EDIT</button></td>
+                                <td><button (click)="hapusBuku(buku)"
+                                        class="btn btn-outline-danger btn-sm">DELETE</button></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </div>
+            <!-- sakdm;a -->
+
+
+        <!-- <div class="col-md-6">
+            <div class="card mb-4">
+                <form class="m-4" (submit)="simpanBuku(bukuForm)" #bukuForm="ngForm">
+                    <div class="mb-3">
+                        <label for="id" class="form-label">ID</label>
+                        <input type="hidden" class="form-control" id="id" ngModel name="id" #id="ngModel">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="judul" class="form-label">Judul Kejadian</label>
+                        <input type="text" [ngClass]="judul.invalid && bukuForm.submitted ? 'is-invalid':''"
+                            class="form-control" id="judul" ngModel name="judul" #judul="ngModel" required>
+
+                        <div *ngIf="judul.invalid && bukuForm.submitted" class="invalid-feedback">
+                            Judul Buku harus diisi
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="judul" class="form-label">Kategori Kejadian</label>
+                        <select id="eventCategory" name="eventCategory" class="form-control" required>
+                            <option value="Kejahatan">Kejahatan</option>
+                            <option value="Kebakaran">Kebakaran</option>
+                            <option value="Kerusakan Infrastruktur">Kerusakan Infrastruktur</option>
+                            <option value="Acara Komunitas">Acara Komunitas</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="eventDate">Tanggal dan Waktu Kejadian</label>
+                            <input type="datetime-local" id="eventDate" name="eventDate" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="eventDescription">Deskripsi Detail Kejadian</label>
+                            <textarea id="eventDescription" name="eventDescription" class="form-control" rows="4" placeholder="Deskripsikan kejadian lebih lanjut" required></textarea>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-group">
+                            <label for="eventMedia">Foto/Media Kejadian (Opsional)</label> <br>
+                            <input type="file" id="eventMedia" name="eventMedia" class="form-control-file">
+                        </div>>
+                    </div>
+                    <div class="mb-3">
+                        <label for="penulis" class="form-label">Penulis</label>
+                        <input type="text" class="form-control" id="penulis" ngModel name="penulis" #penulis="ngModel"
+                        required>
+                        
+                        <div *ngIf="penulis.invalid && bukuForm.submitted" class="invalid-feedback">
+                            Penulis Buku harus diisi
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label me-4">Genre</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="biografi"
+                                ngModel name="genre1">
+                            <label class="form-check-label" for="inlineCheckbox1">Biografi</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="pendidikan"
+                                ngModel name="genre2">
+                            <label class="form-check-label" for="inlineCheckbox2">Pendidikan</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="lainnya" ngModel
+                                name="genre3">
+                            <label class="form-check-label" for="inlineCheckbox2">Lainnya</label>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">{{ mode }}</button>
+                    &nbsp;
+                    <button (click)="onReset()" type="reset" class="btn btn-danger">Reset</button>
+                </form>
+
+                <div *ngIf="messageExecute != ''" class="bg-success m-4 p-2 text-dark bg-opacity-25">
+                    <h6>{{ messageExecute }}</h6>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Data Buku
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Penulis</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="bukuList.length>0">
+                            <tr *ngFor="let buku of bukuList | paginate: { itemsPerPage: 5, currentPage: p }">
+                                <td>{{ buku.judul }}</td>
+                                <td>{{ buku.penulis }}</td>
+                                <td><button (click)="tampilData(buku,bukuForm)"
+                                        class="btn btn-outline-primary btn-sm">EDIT</button></td>
+                                <td><button (click)="hapusBuku(buku)"
+                                        class="btn btn-outline-danger btn-sm">DELETE</button></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Daftar kejadian
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>Penulis</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="bukuList.length>0">
+                            <tr *ngFor="let buku of bukuList | paginate: { itemsPerPage: 5, currentPage: p }">
+                                <td>{{ buku.judul }}</td>
+                                <td>{{ buku.penulis }}</td>
+                                <td><button (click)="tampilData(buku,bukuForm)"
+                                        class="btn btn-outline-primary btn-sm">EDIT</button></td>
+                                <td><button (click)="hapusBuku(buku)"
+                                        class="btn btn-outline-danger btn-sm">DELETE</button></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>
